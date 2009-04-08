@@ -1,0 +1,39 @@
+RestAuth
+========
+
+RestAuth是一个简单的权限管理配置软件。
+通过在每个控制器(Controller)中对角色(role)所能访问的动作(action)进行配置，从而达到权限管理的目的。
+
+
+假设前提
+=======
+
+	1. 控制器的action不超过REST的7种(index,show,new,create,edit,update,destroy)
+	2. 在控制器中为每个角色建立需要访问的action
+
+Example
+=======
+
+1. 在ApplicationController中定义权限验证方法
+  def logged_in?
+  	current_user != :false
+  end
+  
+  def admin?
+  	logged_in? && self.current_user.admin?
+  end
+  
+2. 假定有AccountController
+  2.1 在AccountController配置权限
+     set_actions :guest
+     set_actions :member,:rule=>:logged_in?
+     
+  2.2 在AccountController中定义以_member为后缀的action
+  	 def index_member
+  	 end
+  	 
+  	 def new_member
+  	 end
+
+
+Copyright (c) 2009 [nancy,aaron,david], released under the MIT license
